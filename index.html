@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Pinkie Studio - รีวิวสินค้า</title>
+<!-- Tailwind CSS CDN -->
+<script src="https://cdn.tailwindcss.com"></script>
+<!-- Google Fonts: Kanit, Mitr & Itim -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Itim&family=Kanit:wght@300;400;500;600&family=Mitr:wght@300;400;500&display=swap" rel="stylesheet">
+<!-- FontAwesome Icons -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<script>
+tailwind.config = {
+  theme: {
+    extend: {
+      colors: {
+        theme: {
+          main: '#FF94A8',
+          light: '#FFF0F3',
+          border: '#FFE4E8',
+          text: '#E06D83',
+          bg: '#FAF4F5',
+          card: '#FFFFFF',
+          header: '#FFFFFF',
+          contactBtnBg: '#FF94A8',
+          contactBtnIcon: '#FFFFFF'
+        }
+      }
+    }
+  }
+}
+</script>
+<style>
+:root {
+  --color-main: #FF94A8;
+  --color-light: #FFF0F3;
+  --color-border: #FFE4E8;
+  --color-text: #E06D83;
+  --color-bg: #FAF4F5;
+  --color-card: #FFFFFF;
+  --color-header: #FFFFFF;
+  --color-contact-btn-bg: #FF94A8;
+  --color-contact-btn-icon: #FFFFFF;
+}
+html, body {
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  font-family: 'Kanit', sans-serif;
+  touch-action: manipulation;
+}
+@media screen and (max-width: 768px) {
+  input[type="text"], input[type="number"], input[type="email"], input[type="password"], input[type="url"], textarea, select {
+    font-size: 16px !important;
+  }
+}
+.font-heading { font-family: 'Mitr', sans-serif; }
+.font-cute { font-family: 'Itim', cursive; }
+::-webkit-scrollbar { width: 5px; height: 5px; }
+::-webkit-scrollbar-track { background: var(--color-light); }
+::-webkit-scrollbar-thumb { background: var(--color-main); border-radius: 10px; }
+.aspect-banner { aspect-ratio: 1122 / 495; }
+.cute-card {
+  background-color: var(--color-card);
+  border: 2px solid var(--color-border);
+  box-shadow: 0 8px 20px -6px rgba(0, 0, 0, 0.05);
+  border-radius: 1.25rem;
+  transition: all 0.3s ease;
+}
+.cute-btn {
+  background-color: var(--color-main);
+  color: #ffffff;
+  transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.cute-btn:hover {
+  transform: translateY(-2px) scale(1.02);
+  filter: brightness(1.05);
+}
+.heart-btn {
+  transition: transform 0.2s ease;
+}
+.heart-btn:hover {
+  transform: scale(1.3) rotate(6deg);
+}
+.dynamic-bg-light { background-color: var(--color-light); }
+.dynamic-border { border-color: var(--color-border); }
+.dynamic-text { color: var(--color-text); }
+.contact-circle-btn {
+  background-color: var(--color-contact-btn-bg);
+  color: var(--color-contact-btn-icon);
+  transition: all 0.25s ease;
+}
+.contact-circle-btn:hover {
+  transform: translateY(-3px) scale(1.08);
+  filter: brightness(1.05);
+}
+</style>
+</head>
+<body class="min-h-screen flex flex-col justify-between">
+<!-- Audio Player Hidden Element -->
+<audio id="bgAudio" loop>
+  <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+</audio>
+
+<!-- Header / Navbar -->
+<header class="backdrop-blur-md sticky top-0 z-40 border-b dynamic-border shadow-sm max-w-md mx-auto w-full transition-colors duration-300" style="background-color: var(--color-header);">
+  <div class="px-4 py-2.5 flex items-center justify-between">
+    <div class="flex items-center space-x-2">
+      <a href="#" class="flex items-center space-x-2 group">
+        <!-- โลโก้ร้าน -->
+        <div class="w-9 h-9 rounded-full dynamic-bg-light flex items-center justify-center dynamic-text text-lg font-bold shadow-inner group-hover:scale-105 transition overflow-hidden shrink-0 border dynamic-border">
+          <img src="ไม่มีชื่อ 29_20261004124605.png" alt="Store Logo" class="w-full h-full object-cover">
+        </div>
+        <div>
+          <span id="storeNameText" class="font-heading text-base font-medium dynamic-text tracking-wide block leading-tight">Pinkie Studio</span>
+          <span class="block text-[9px] dynamic-text opacity-80 tracking-wider font-cute">REVIEWS & FEEDBACK PAGE</span>
+        </div>
+      </a>
+    </div>
+    <div class="flex items-center space-x-2">
+      <button id="musicToggleBtn" onclick="toggleMusic()" class="relative dynamic-text hover:opacity-80 transition dynamic-bg-light rounded-full w-8 h-8 flex items-center justify-center shadow-sm shrink-0 border dynamic-border">
+        <i id="musicIcon" class="fa-solid fa-music text-xs"></i>
+      </button>
+    </div>
+  </div>
+</header>
+
+<!-- MAIN CONTENT -->
+<main class="max-w-md mx-auto px-3 py-4 flex-grow w-full">
+  <section id="page-reviews" class="space-y-4 max-w-md mx-auto">
+    <!-- แบนเนอร์ร้าน -->
+    <div class="relative w-full aspect-banner dynamic-bg-light rounded-2xl overflow-hidden border-2 dynamic-border shadow-sm group">
+      <img id="aboutBannerImg" src="ไม่มีชื่อ 24_20261003034727.png" alt="Store Banner" class="w-full h-full object-cover">
+    </div>
+
+    <!-- สรุปคะแนนรีวิว -->
+    <div class="cute-card p-4 flex items-center justify-between">
+      <div>
+        <h3 class="font-heading text-sm dynamic-text font-medium flex items-center gap-1.5">
+          <i class="fa-solid fa-heart text-rose-500 animate-pulse"></i> รีวิวจากลูกค้าสุดน่ารัก
+        </h3>
+        <div class="flex items-center space-x-3 text-xs opacity-90 mt-1 font-medium">
+          <span class="flex items-center text-rose-500 gap-1 bg-rose-50 px-2 py-0.5 rounded-full border border-rose-100">
+            <i class="fa-solid fa-heart text-[10px]"></i>
+            <span id="avgRatingText" class="font-bold text-rose-600">0.0</span>
+          </span>
+          <span class="opacity-30">|</span>
+          <span class="flex items-center dynamic-text gap-1 dynamic-bg-light px-2 py-0.5 rounded-full border dynamic-border">
+            <i class="fa-solid fa-user text-[10px]"></i>
+            <span id="reviewersCountText" class="font-bold">0 คน</span>
+          </span>
+        </div>
+      </div>
+      <button id="writeReviewBtn" onclick="toggleWriteReviewModal()" class="cute-btn text-[11px] px-3.5 py-2 rounded-full font-medium shadow-md flex items-center space-x-1 shrink-0 border border-white/40">
+        <i class="fa-solid fa-pen-nib text-[10px]"></i>
+        <span>+ เขียนรีวิว</span>
+      </button>
+    </div>
+
+    <!-- AUTO-DISPLAY REVIEWS FEED -->
+    <div class="cute-card p-4 space-y-4">
+      <div class="flex items-center justify-between border-b dynamic-border pb-2">
+        <span id="approvedCountText" class="text-[11px] opacity-70 font-cute">ทั้งหมด 0 รีวิว</span>
+      </div>
+      <div id="approvedReviewsContainer" class="space-y-3"></div>
+    </div>
+
+    <!-- CONTACT US SECTION -->
+    <section class="py-4 text-center space-y-3">
+      <h3 class="font-heading text-base font-semibold dynamic-text tracking-wide">Contact Us</h3>
+      <div class="flex items-center justify-center space-x-4">
+        <!-- ปุ่ม Facebook -->
+        <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" aria-label="Facebook" class="contact-circle-btn w-12 h-12 rounded-full flex items-center justify-center text-xl shadow-md border border-white/40">
+          <i class="fa-brands fa-facebook-f"></i>
+        </a>
+        <!-- ปุ่ม Line -->
+        <a href="https://line.me" target="_blank" rel="noopener noreferrer" aria-label="Line" class="contact-circle-btn w-12 h-12 rounded-full flex items-center justify-center text-xl shadow-md border border-white/40">
+          <i class="fa-brands fa-line"></i>
+        </a>
+      </div>
+    </section>
+  </section>
+</main>
+
+<!-- WRITE REVIEW MODAL -->
+<div id="reviewModal" class="fixed inset-0 bg-black/40 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+  <div class="bg-white rounded-3xl max-w-xs w-full p-5 shadow-2xl border-2 dynamic-border relative space-y-3 text-gray-700">
+    <button onclick="toggleWriteReviewModal()" class="absolute top-4 right-4 text-gray-400 hover:text-rose-400 transition">
+      <i class="fa-solid fa-circle-xmark text-xl"></i>
+    </button>
+    <div class="text-center space-y-1">
+      <span class="text-2xl animate-bounce inline-block">✨</span>
+      <h3 class="font-heading text-base dynamic-text font-medium">เขียนรีวิวสินค้า</h3>
+      <p class="text-[10px] opacity-80 font-cute">แชร์ความประทับใจของคุณให้เราฟังหน่อยน้า</p>
+    </div>
+    <form onsubmit="handleCustomerSubmitReview(event)" class="space-y-3 text-xs">
+      <div>
+        <label class="block font-medium mb-1">ชื่อผู้รีวิว</label>
+        <input type="text" id="revAuthor" required placeholder="ใส่ชื่อน่ารักๆ ของคุณ..." class="w-full dynamic-bg-light border dynamic-border rounded-xl px-3 py-2 focus:outline-none focus:border-amber-400">
+      </div>
+      <div>
+        <label class="block font-medium mb-1">ระดับความประทับใจ</label>
+        <div class="flex space-x-2 text-xl text-rose-500 justify-center py-2 dynamic-bg-light rounded-xl border dynamic-border" id="starSelector">
+          <button type="button" onclick="setSelectRating(1)" class="heart-btn text-rose-500"><i class="fa-solid fa-heart"></i></button>
+          <button type="button" onclick="setSelectRating(2)" class="heart-btn text-rose-500"><i class="fa-solid fa-heart"></i></button>
+          <button type="button" onclick="setSelectRating(3)" class="heart-btn text-rose-500"><i class="fa-solid fa-heart"></i></button>
+          <button type="button" onclick="setSelectRating(4)" class="heart-btn text-rose-500"><i class="fa-solid fa-heart"></i></button>
+          <button type="button" onclick="setSelectRating(5)" class="heart-btn text-rose-500"><i class="fa-solid fa-heart"></i></button>
+        </div>
+      </div>
+      <div>
+        <label class="block font-medium mb-1">ข้อความรีวิว</label>
+        <textarea id="revComment" rows="3" required placeholder="แชร์ความประทับใจได้เลยนะคะ..." class="w-full dynamic-bg-light border dynamic-border rounded-xl px-3 py-2 focus:outline-none focus:border-amber-400"></textarea>
+      </div>
+      <button type="submit" id="submitReviewBtn" class="cute-btn w-full py-2 rounded-full font-medium shadow-md">
+        ส่งรีวิว
+      </button>
+    </form>
+  </div>
+</div>
+
+<footer class="bg-white/80 border-t dynamic-border py-4 text-center text-[10px] opacity-70 mt-6 max-w-md mx-auto w-full font-cute">
+  <p>© 2026 Pinkie Studio Store. Made with 💖 for Pastel Lovers</p>
+</footer>
+
+<!-- FIREBASE SDK -->
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
+<script>
+// --- 1. FIREBASE INITIALIZATION
+const firebaseConfig = {
+  apiKey: "AIzaSyC31MlhrmXO9g5wnZJNT3OnPr8Tayvs5tU",
+  authDomain: "yoneko-store.firebaseapp.com",
+  databaseURL: "https://yoneko-store-default-rtdb.asia-southeast1.firebasedatabase.app",
+  projectId: "yoneko-store",
+  storageBucket: "yoneko-store.firebasestorage.app",
+  messagingSenderId: "138589530794",
+  appId: "1:138589530794:web:4499a524009033a1777ed3",
+  measurementId: "G-R1QT1BSN90"
+};
+
+let rtdb;
+try {
+  if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
+  rtdb = firebase.database();
+} catch (e) { console.error("Firebase init failed:", e); }
+
+// --- 2. GLOBAL STATES
+let reviews = [];
+let currentSelectedRating = 5;
+let isPlaying = false;
+
+// --- MUSIC TOGGLE
+function toggleMusic() {
+  const audio = document.getElementById('bgAudio');
+  const icon = document.getElementById('musicIcon');
+  if (isPlaying) {
+    audio.pause();
+    icon.className = 'fa-solid fa-music text-xs';
+  } else {
+    audio.play().catch(e => console.log("Audio play deferred:", e));
+    icon.className = 'fa-solid fa-compact-disc fa-spin text-xs text-rose-500';
+  }
+  isPlaying = !isPlaying;
+}
+
+// --- 3. REALTIME LISTENERS
+if (rtdb) {
+  rtdb.ref('reviews').on('value', (snap) => {
+    const data = snap.val();
+    reviews = data ? Object.keys(data).map(key => ({ id: key, ...data[key] })) : [];
+    renderReviews();
+  });
+}
+
+// --- 4. REVIEWS SYSTEM (AUTO-DISPLAY) ---
+function setSelectRating(r) {
+  currentSelectedRating = r;
+  document.querySelectorAll('#starSelector .heart-btn').forEach((btn, idx) => {
+    btn.className = idx < r ? 'heart-btn text-rose-500' : 'heart-btn text-gray-200';
+  });
+}
+
+function toggleWriteReviewModal() {
+  document.getElementById('reviewModal').classList.toggle('hidden');
+}
+
+function handleCustomerSubmitReview(e) {
+  e.preventDefault();
+  if (!rtdb) return alert('ฐานข้อมูลยังไม่พร้อมใช้งานค่ะ');
+  const author = document.getElementById('revAuthor').value.trim();
+  const comment = document.getElementById('revComment').value.trim();
+  const submitBtn = document.getElementById('submitReviewBtn');
+  if (!author || !comment) return alert('กรุณากรอกข้อมูลให้ครบถ้วนค่ะ');
+
+  submitBtn.disabled = true;
+  submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> กำลังส่ง...';
+
+  rtdb.ref('reviews').push({
+    author,
+    rating: currentSelectedRating,
+    comment,
+    status: 'approved',
+    date: new Date().toISOString().split('T')[0]
+  }, (err) => {
+    submitBtn.disabled = false;
+    submitBtn.innerHTML = 'ส่งรีวิว';
+    if (!err) {
+      toggleWriteReviewModal();
+      document.getElementById('revAuthor').value = '';
+      document.getElementById('revComment').value = '';
+      alert('ส่งรีวิวเรียบร้อยแล้วค่ะ! ขอบคุณสำหรับรีวิวนะคะ');
+    } else {
+      alert('เกิดข้อผิดพลาดในการส่งรีวิว กรุณาลองใหม่อีกครั้ง');
+    }
+  });
+}
+
+function renderReviews() {
+  const approvedContainer = document.getElementById('approvedReviewsContainer');
+  if (!approvedContainer) return;
+  const totalApproved = reviews.length;
+  const sumRating = reviews.reduce((sum, r) => sum + Number(r.rating || 5), 0);
+  const avgRating = totalApproved > 0 ? (sumRating / totalApproved).toFixed(1) : "0.0";
+
+  document.getElementById('avgRatingText').textContent = avgRating;
+  document.getElementById('reviewersCountText').textContent = `${totalApproved} คน`;
+  document.getElementById('approvedCountText').textContent = `ทั้งหมด ${totalApproved} รีวิว`;
+
+  approvedContainer.innerHTML = '';
+  if (reviews.length === 0) {
+    approvedContainer.innerHTML = '<div class="text-center py-6 text-xs opacity-70 font-cute">ยังไม่มีรีวิวในขณะนี้ค่ะ</div>';
+    return;
+  }
+
+  const fragment = document.createDocumentFragment();
+  reviews.forEach(r => {
+    const card = document.createElement('div');
+    card.className = 'p-3 bg-white rounded-xl border dynamic-border space-y-1.5 relative shadow-sm hover:shadow-md transition';
+    let hearts = '';
+    const ratingNum = r.rating || 5;
+    for (let i = 0; i < 5; i++) {
+      hearts += i < ratingNum ? '<i class="fa-solid fa-heart text-rose-500"></i>' : '<i class="fa-solid fa-heart text-gray-200"></i>';
+    }
+    card.innerHTML = `
+      <div class="flex items-center justify-between">
+        <div class="flex items-center space-x-1.5">
+          <span class="font-medium text-xs text-gray-800">${r.author || 'ผู้ใช้งาน'}</span>
+          <div class="text-[9px] space-x-0.5">${hearts}</div>
+        </div>
+        <span class="text-[9px] opacity-60 font-cute">${r.date || ''}</span>
+      </div>
+      <p class="text-[11px] text-gray-600 leading-relaxed">${r.comment || ''}</p>
+    `;
+    fragment.appendChild(card);
+  });
+  approvedContainer.appendChild(fragment);
+}
+</script>
+</body>
+</html>
